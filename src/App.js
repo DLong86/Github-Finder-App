@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
+import Navbar from "./components/layout/Navbar";
+import { About } from "./components/pages/About";
+import User from "./components/users/User";
+import GithubState from "./context/github/GithubState";
+import Home from "./components/pages/Home";
+import NotFound from "./components/pages/NotFound";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GithubState>
+      <BrowserRouter>
+        <div className="">
+          <Navbar title="Github Finder" icon={<FaGithub />} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/user/:login" element={<User loading={loading} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </GithubState>
   );
 }
 
